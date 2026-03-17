@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSON Viewer</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0e1117;
+  --bg-surface: #161b22;
+  --bg-elevated: #1c2333;
+  --bg-hover: #252d3a;
+  --border: #2a3142;
+  --border-focus: #58a6ff;
+  --text: #e6edf3;
+  --text-muted: #7d8590;
+  --text-dim: #484f58;
+  --accent: #58a6ff;
+  --accent-soft: rgba(88,166,255,0.12);
+  --green: #3fb950;
+  --green-soft: rgba(63,185,80,0.12);
+  --orange: #d29922;
+  --orange-soft: rgba(210,153,34,0.12);
+  --purple: #bc8cff;
+  --purple-soft: rgba(188,140,255,0.12);
+  --red: #f85149;
+  --red-soft: rgba(248,81,73,0.12);
+  --cyan: #76e3ea;
+  --string-color: #a5d6ff;
+  --number-color: #79c0ff;
+  --bool-color: #ff7b72;
+  --null-color: #7d8590;
+  --key-color: #d2a8ff;
+  --bracket-color: #7d8590;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: 'DM Sans', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.header svg { flex-shrink: 0; }
+.header h1 {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+.header h1 span { color: var(--accent); }
+.header .stats {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  display: flex;
+  gap: 16px;
+}
+.header .stats .stat-val { color: var(--accent); font-weight: 600; }
+
+/* LAYOUT */
+.app {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: calc(100vh - 53px);
+}
+
+/* INPUT PANEL */
+.panel {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border);
+  overflow: hidden;
+}
+.panel-header {
+  padding: 10px 16px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.panel-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+}
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--bg);
+  padding: 6px;
+  border-radius: var(--radius);
+}
+.tab {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tab:hover { color: var(--text); background: var(--bg-hover); }
+.tab.active { color: var(--text); background: var(--bg-elevated); }
+
+/* TOOLBAR */
+.toolbar {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+.btn {
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text); }
+.btn.primary {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+}
+.btn.primary:hover { opacity: 0.9; }
+
+/* TEXTAREA */
+.input-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.input-area textarea {
+  flex: 1;
+  background: var(--bg);
+  color: var(--text);
+  border: none;
+  padding: 16px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  resize: none;
+  outline: none;
+  tab-size: 2;
+}
+.input-area textarea::placeholder { color: var(--text-dim); }
+
+/* DROPZONE */
+.dropzone {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.dropzone.dragover { background: var(--accent-soft); }
+.dropzone-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  border: 2px dashed var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  transition: all 0.2s;
+}
+.dropzone.dragover .dropzone-icon {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.dropzone h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.dropzone p {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.dropzone .file-types {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+}
+.dropzone .file-types span {
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  border-radius: 4px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+#fileInput { display: none; }
+
+/* OUTPUT PANEL */
+.output-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.view-tabs {
+  display: flex;
+  gap: 0;
+}
+.view-tab {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  border-bottom: 2px solid transparent;
+}
+.view-tab:hover { color: var(--text); }
+.view-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* TREE VIEW */
+.output-content {
+  flex: 1;
+  overflow: auto;
+  padding: 12px 16px;
+}
+.output-content::-webkit-scrollbar { width: 6px; height: 6px; }
+.output-content::-webkit-scrollbar-track { background: transparent; }
+.output-content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+.tree { font-family: var(--font-mono); font-size: 13px; line-height: 1.7; }
+
+.tree-node { position: relative; }
+.tree-line {
+  display: flex;
+  align-items: flex-start;
+  padding: 1px 0;
+  border-radius: 4px;
+  cursor: default;
+}
+.tree-line:hover { background: var(--bg-hover); }
+.tree-line.collapsible { cursor: pointer; }
+
+.tree-toggle {
+  width: 18px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--text-dim);
+  font-size: 10px;
+  transition: transform 0.15s;
+  user-select: none;
+}
+.tree-toggle.open { transform: rotate(90deg); }
+.tree-toggle.empty { visibility: hidden; }
+
+.tree-indent {
+  display: inline-block;
+  width: 20px;
+  flex-shrink: 0;
+  position: relative;
+}
+.tree-indent::before {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+
+.tree-key { color: var(--key-color); }
+.tree-colon { color: var(--text-dim); margin: 0 4px; }
+.tree-string { color: var(--string-color); }
+.tree-number { color: var(--number-color); }
+.tree-boolean { color: var(--bool-color); font-weight: 600; }
+.tree-null { color: var(--null-color); font-style: italic; }
+.tree-bracket { color: var(--bracket-color); font-weight: 500; }
+.tree-summary { color: var(--text-dim); font-size: 12px; font-style: italic; }
+.tree-children { display: block; }
+.tree-children.collapsed { display: none; }
+
+/* Copy on hover */
+.copy-val {
+  margin-left: 6px;
+  opacity: 0;
+  color: var(--text-dim);
+  font-size: 10px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.tree-line:hover .copy-val { opacity: 1; }
+.copy-val:hover { color: var(--accent); }
+
+/* TABLE VIEW */
+.table-container { overflow: auto; }
+.json-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  font-family: var(--font-mono);
+}
+.json-table th {
+  position: sticky;
+  top: 0;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  text-align: left;
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  z-index: 2;
+}
+.json-table td {
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  color: var(--text);
+  max-width: 350px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: top;
+}
+.json-table tr:hover td { background: var(--bg-hover); }
+.json-table td.nested-cell {
+  color: var(--text-muted);
+  cursor: pointer;
+  position: relative;
+}
+.json-table td.nested-cell:hover { color: var(--accent); }
+.nested-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.nested-badge.obj { background: var(--purple-soft); color: var(--purple); }
+.nested-badge.arr { background: var(--green-soft); color: var(--green); }
+
+/* NESTED MODAL */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.15s ease;
+}
+.modal {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  width: 90%;
+  max-width: 800px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.2s ease;
+}
+.modal-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal-header h3 {
+  font-size: 13px;
+  font-family: var(--font-mono);
+  color: var(--accent);
+}
+.modal-close {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: none;
+  background: var(--bg-hover);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-close:hover { color: var(--text); }
+.modal-body {
+  flex: 1;
+  overflow: auto;
+  padding: 16px;
+}
+@keyframes fadeIn { from { opacity: 0; } }
+@keyframes slideUp { from { transform: translateY(12px); opacity: 0; } }
+
+/* ERROR */
+.error-box {
+  background: var(--red-soft);
+  border: 1px solid rgba(248,81,73,0.3);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin: 12px;
+  font-size: 13px;
+  font-family: var(--font-mono);
+  color: var(--red);
+}
+
+/* EMPTY STATE */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-dim);
+  gap: 8px;
+}
+.empty-state svg { opacity: 0.3; }
+.empty-state p { font-size: 13px; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .app { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
+  .panel { border-right: none; border-bottom: 1px solid var(--border); }
+}
+
+/* Search */
+.search-box {
+  position: relative;
+  margin-left: auto;
+}
+.search-box input {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 10px 5px 28px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--text);
+  outline: none;
+  width: 180px;
+  transition: border-color 0.15s;
+}
+.search-box input:focus { border-color: var(--accent); }
+.search-box input::placeholder { color: var(--text-dim); }
+.search-box svg {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-dim);
+}
+.highlight { background: var(--orange-soft); border-radius: 2px; outline: 1px solid var(--orange); }
+
+/* Row index */
+.row-idx {
+  color: var(--text-dim);
+  font-size: 10px;
+  text-align: right;
+  padding-right: 8px !important;
+  user-select: none;
+  width: 40px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+    <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+  </svg>
+  <h1><span>{</span> JSON Viewer <span>}</span></h1>
+  <div class="stats" id="stats"></div>
+</div>
+
+<div class="app">
+  <!-- INPUT -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="tabs">
+        <button class="tab active" data-tab="text" onclick="switchInputTab('text')">Texto</button>
+        <button class="tab" data-tab="file" onclick="switchInputTab('file')">Arquivo</button>
+      </div>
+      <div class="toolbar">
+        <button class="btn" onclick="formatInput()" title="Formatar JSON">Formatar</button>
+        <button class="btn" onclick="minifyInput()" title="Minificar JSON">Minificar</button>
+        <button class="btn" onclick="clearAll()">Limpar</button>
+        <button class="btn primary" onclick="parseInput()">Visualizar ▸</button>
+      </div>
+    </div>
+    <div class="input-area" id="textTab">
+      <textarea id="jsonInput" placeholder='Cole seu JSON aqui...\n\nExemplo:\n{\n  "nome": "Fernando",\n  "idade": 28,\n  "skills": ["JS", "React", "Docker"]\n}' spellcheck="false"></textarea>
+    </div>
+    <div class="input-area" id="fileTab" style="display:none">
+      <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
+        <div class="dropzone-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <h3>Arraste ou clique para enviar</h3>
+        <p>Selecione um arquivo do seu computador</p>
+        <div class="file-types">
+          <span>.json</span>
+          <span>.csv</span>
+        </div>
+      </div>
+      <input type="file" id="fileInput" accept=".json,.csv">
+    </div>
+  </div>
+
+  <!-- OUTPUT -->
+  <div class="output-panel">
+    <div class="panel-header">
+      <div class="view-tabs">
+        <button class="view-tab active" data-view="tree" onclick="switchView('tree')">Árvore</button>
+        <button class="view-tab" data-view="table" onclick="switchView('table')">Tabela</button>
+      </div>
+      <div class="toolbar" style="margin-left:auto; gap:6px;">
+        <button class="btn" onclick="expandAll()">Expandir Tudo</button>
+        <button class="btn" onclick="collapseAll()">Recolher Tudo</button>
+      </div>
+      <div class="search-box">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="searchInput" placeholder="Buscar chave..." oninput="searchTree(this.value)">
+      </div>
+    </div>
+    <div class="output-content" id="treeView">
+      <div class="empty-state" id="emptyState">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        <p>Cole um JSON ou envie um arquivo para visualizar</p>
+      </div>
+    </div>
+    <div class="output-content table-container" id="tableView" style="display:none"></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">Nested</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+let parsedData = null;
+
+// ── Input Tabs ──
+function switchInputTab(tab) {
+  document.querySelectorAll('.tabs .tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  document.getElementById('textTab').style.display = tab === 'text' ? '' : 'none';
+  document.getElementById('fileTab').style.display = tab === 'file' ? '' : 'none';
+}
+
+// ── View Tabs ──
+function switchView(view) {
+  document.querySelectorAll('.view-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
+  document.getElementById('treeView').style.display = view === 'tree' ? '' : 'none';
+  document.getElementById('tableView').style.display = view === 'table' ? '' : 'none';
+}
+
+// ── File Handling ──
+const dropzone = document.getElementById('dropzone');
+const fileInput = document.getElementById('fileInput');
+
+dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
+dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+dropzone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropzone.classList.remove('dragover');
+  handleFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', e => { if (e.target.files[0]) handleFile(e.target.files[0]); });
+
+function handleFile(file) {
+  const ext = file.name.split('.').pop().toLowerCase();
+  if (!['json', 'csv'].includes(ext)) {
+    showError('Formato não suportado. Use .json ou .csv');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const text = e.target.result;
+    if (ext === 'csv') {
+      const json = csvToJson(text);
+      document.getElementById('jsonInput').value = JSON.stringify(json, null, 2);
+      switchInputTab('text');
+      parseInput();
+    } else {
+      document.getElementById('jsonInput').value = text;
+      switchInputTab('text');
+      parseInput();
+    }
+  };
+  reader.readAsText(file);
+}
+
+function csvToJson(csv) {
+  const lines = csv.trim().split('\n');
+  if (lines.length < 2) return [];
+  const headers = parseCSVLine(lines[0]);
+  const result = [];
+  for (let i = 1; i < lines.length; i++) {
+    if (!lines[i].trim()) continue;
+    const vals = parseCSVLine(lines[i]);
+    const obj = {};
+    headers.forEach((h, idx) => {
+      let v = vals[idx] || '';
+      if (v === '') obj[h] = null;
+      else if (!isNaN(v) && v !== '') obj[h] = Number(v);
+      else if (v.toLowerCase() === 'true') obj[h] = true;
+      else if (v.toLowerCase() === 'false') obj[h] = false;
+      else obj[h] = v;
+    });
+    result.push(obj);
+  }
+  return result;
+}
+
+function parseCSVLine(line) {
+  const result = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (inQuotes) {
+      if (ch === '"' && line[i+1] === '"') { current += '"'; i++; }
+      else if (ch === '"') inQuotes = false;
+      else current += ch;
+    } else {
+      if (ch === '"') inQuotes = true;
+      else if (ch === ',' || ch === ';') { result.push(current.trim()); current = ''; }
+      else current += ch;
+    }
+  }
+  result.push(current.trim());
+  return result;
+}
+
+// ── Parse ──
+function parseInput() {
+  const raw = document.getElementById('jsonInput').value.trim();
+  if (!raw) return;
+  try {
+    parsedData = JSON.parse(raw);
+    renderTree(parsedData);
+    renderTable(parsedData);
+    updateStats(parsedData);
+    document.getElementById('emptyState')?.remove();
+  } catch (e) {
+    showError('JSON inválido: ' + e.message);
+  }
+}
+
+function formatInput() {
+  try {
+    const v = JSON.parse(document.getElementById('jsonInput').value);
+    document.getElementById('jsonInput').value = JSON.stringify(v, null, 2);
+  } catch(e) { showError('JSON inválido: ' + e.message); }
+}
+
+function minifyInput() {
+  try {
+    const v = JSON.parse(document.getElementById('jsonInput').value);
+    document.getElementById('jsonInput').value = JSON.stringify(v);
+  } catch(e) { showError('JSON inválido: ' + e.message); }
+}
+
+function clearAll() {
+  document.getElementById('jsonInput').value = '';
+  document.getElementById('treeView').innerHTML = '<div class="empty-state" id="emptyState"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg><p>Cole um JSON ou envie um arquivo para visualizar</p></div>';
+  document.getElementById('tableView').innerHTML = '';
+  document.getElementById('stats').innerHTML = '';
+  parsedData = null;
+}
+
+function showError(msg) {
+  const tv = document.getElementById('treeView');
+  tv.innerHTML = `<div class="error-box">${msg}</div>`;
+}
+
+function updateStats(data) {
+  const s = document.getElementById('stats');
+  const type = Array.isArray(data) ? 'Array' : typeof data === 'object' ? 'Object' : typeof data;
+  let count = '';
+  if (Array.isArray(data)) count = data.length + ' items';
+  else if (typeof data === 'object' && data !== null) count = Object.keys(data).length + ' keys';
+  const size = new Blob([JSON.stringify(data)]).size;
+  const sizeStr = size > 1024 ? (size/1024).toFixed(1) + ' KB' : size + ' B';
+  s.innerHTML = `<span>Tipo: <span class="stat-val">${type}</span></span><span>Contém: <span class="stat-val">${count}</span></span><span>Tamanho: <span class="stat-val">${sizeStr}</span></span>`;
+}
+
+// ── TREE VIEW ──
+function renderTree(data) {
+  const tv = document.getElementById('treeView');
+  tv.innerHTML = '';
+  tv.appendChild(buildTreeNode(null, data, 0, true));
+}
+
+function buildTreeNode(key, value, depth, isLast) {
+  const node = document.createElement('div');
+  node.className = 'tree-node';
+
+  if (value !== null && typeof value === 'object') {
+    const isArr = Array.isArray(value);
+    const entries = isArr ? value.map((v,i) => [i,v]) : Object.entries(value);
+    const openBr = isArr ? '[' : '{';
+    const closeBr = isArr ? ']' : '}';
+    const summary = isArr ? `${value.length} items` : `${Object.keys(value).length} keys`;
+
+    // Header line
+    const line = document.createElement('div');
+    line.className = 'tree-line collapsible';
+
+    // Indents
+    for (let i = 0; i < depth; i++) {
+      const ind = document.createElement('span');
+      ind.className = 'tree-indent';
+      line.appendChild(ind);
+    }
+
+    // Toggle
+    const toggle = document.createElement('span');
+    toggle.className = 'tree-toggle open';
+    toggle.textContent = '▶';
+    line.appendChild(toggle);
+
+    // Key
+    if (key !== null) {
+      const k = document.createElement('span');
+      k.className = 'tree-key';
+      k.textContent = typeof key === 'number' ? key : `"${key}"`;
+      line.appendChild(k);
+      const c = document.createElement('span');
+      c.className = 'tree-colon';
+      c.textContent = ':';
+      line.appendChild(c);
+    }
+
+    const br = document.createElement('span');
+    br.className = 'tree-bracket';
+    br.textContent = openBr;
+    line.appendChild(br);
+
+    const sum = document.createElement('span');
+    sum.className = 'tree-summary';
+    sum.textContent = ` // ${summary}`;
+    sum.style.display = 'none';
+    line.appendChild(sum);
+
+    node.appendChild(line);
+
+    // Children
+    const children = document.createElement('div');
+    children.className = 'tree-children';
+
+    entries.forEach(([k, v], idx) => {
+      children.appendChild(buildTreeNode(k, v, depth + 1, idx === entries.length - 1));
+    });
+
+    // Closing bracket
+    const closeLine = document.createElement('div');
+    closeLine.className = 'tree-line';
+    for (let i = 0; i < depth; i++) {
+      const ind = document.createElement('span');
+      ind.className = 'tree-indent';
+      closeLine.appendChild(ind);
+    }
+    const sp = document.createElement('span');
+    sp.className = 'tree-toggle empty';
+    closeLine.appendChild(sp);
+    const cbr = document.createElement('span');
+    cbr.className = 'tree-bracket';
+    cbr.textContent = closeBr + (isLast ? '' : ',');
+    closeLine.appendChild(cbr);
+    children.appendChild(closeLine);
+
+    node.appendChild(children);
+
+    // Toggle behavior
+    line.addEventListener('click', () => {
+      const open = toggle.classList.toggle('open');
+      children.classList.toggle('collapsed', !open);
+      sum.style.display = open ? 'none' : '';
+      cbr.parentElement.style.display = open ? '' : 'none';
+    });
+  } else {
+    // Primitive
+    const line = document.createElement('div');
+    line.className = 'tree-line';
+    for (let i = 0; i < depth; i++) {
+      const ind = document.createElement('span');
+      ind.className = 'tree-indent';
+      line.appendChild(ind);
+    }
+    const sp = document.createElement('span');
+    sp.className = 'tree-toggle empty';
+    line.appendChild(sp);
+
+    if (key !== null) {
+      const k = document.createElement('span');
+      k.className = 'tree-key';
+      k.textContent = typeof key === 'number' ? key : `"${key}"`;
+      line.appendChild(k);
+      const c = document.createElement('span');
+      c.className = 'tree-colon';
+      c.textContent = ':';
+      line.appendChild(c);
+    }
+
+    const val = document.createElement('span');
+    if (value === null) { val.className = 'tree-null'; val.textContent = 'null'; }
+    else if (typeof value === 'string') { val.className = 'tree-string'; val.textContent = `"${value}"`; }
+    else if (typeof value === 'number') { val.className = 'tree-number'; val.textContent = value; }
+    else if (typeof value === 'boolean') { val.className = 'tree-boolean'; val.textContent = value; }
+    else { val.textContent = String(value); }
+
+    if (!isLast) val.textContent += ',';
+    line.appendChild(val);
+
+    // Copy btn
+    const cp = document.createElement('span');
+    cp.className = 'copy-val';
+    cp.textContent = '📋';
+    cp.title = 'Copiar valor';
+    cp.addEventListener('click', e => {
+      e.stopPropagation();
+      navigator.clipboard.writeText(value === null ? 'null' : String(value));
+      cp.textContent = '✓';
+      setTimeout(() => cp.textContent = '📋', 1000);
+    });
+    line.appendChild(cp);
+
+    node.appendChild(line);
+  }
+  return node;
+}
+
+// ── Expand / Collapse All ──
+function expandAll() {
+  document.querySelectorAll('.tree-children.collapsed').forEach(c => c.classList.remove('collapsed'));
+  document.querySelectorAll('.tree-toggle:not(.empty)').forEach(t => t.classList.add('open'));
+  document.querySelectorAll('.tree-summary').forEach(s => s.style.display = 'none');
+  // Show closing brackets
+  document.querySelectorAll('.tree-children').forEach(c => {
+    const last = c.lastElementChild;
+    if (last) last.style.display = '';
+  });
+}
+
+function collapseAll() {
+  document.querySelectorAll('.tree-children').forEach(c => c.classList.add('collapsed'));
+  document.querySelectorAll('.tree-toggle:not(.empty)').forEach(t => t.classList.remove('open'));
+  document.querySelectorAll('.tree-summary').forEach(s => s.style.display = '');
+  // First level open
+  const root = document.querySelector('#treeView > .tree-node > .tree-children');
+  if (root) {
+    root.classList.remove('collapsed');
+    const rootToggle = root.previousElementSibling?.querySelector('.tree-toggle');
+    if (rootToggle) rootToggle.classList.add('open');
+    const rootSum = root.previousElementSibling?.querySelector('.tree-summary');
+    if (rootSum) rootSum.style.display = 'none';
+    const last = root.lastElementChild;
+    if (last) last.style.display = '';
+  }
+}
+
+// ── Search ──
+function searchTree(query) {
+  document.querySelectorAll('.highlight').forEach(el => {
+    el.outerHTML = el.textContent;
+  });
+  if (!query || query.length < 2) return;
+  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+  const keys = document.querySelectorAll('#treeView .tree-key');
+  keys.forEach(k => {
+    if (regex.test(k.textContent)) {
+      k.innerHTML = k.textContent.replace(regex, '<span class="highlight">$1</span>');
+      // Expand parents
+      let p = k.closest('.tree-children');
+      while (p) {
+        p.classList.remove('collapsed');
+        const toggle = p.previousElementSibling?.querySelector('.tree-toggle');
+        if (toggle) toggle.classList.add('open');
+        const sum = p.previousElementSibling?.querySelector('.tree-summary');
+        if (sum) sum.style.display = 'none';
+        const last = p.lastElementChild;
+        if (last) last.style.display = '';
+        p = p.parentElement?.closest('.tree-children');
+      }
+    }
+  });
+}
+
+// ── TABLE VIEW ──
+function renderTable(data) {
+  const container = document.getElementById('tableView');
+  container.innerHTML = '';
+
+  let items;
+  if (Array.isArray(data)) items = data;
+  else if (typeof data === 'object' && data !== null) items = [data];
+  else {
+    container.innerHTML = '<div class="empty-state"><p>Tabela disponível apenas para objetos e arrays</p></div>';
+    return;
+  }
+
+  // Collect all keys
+  const allKeys = new Set();
+  items.forEach(item => {
+    if (typeof item === 'object' && item !== null) {
+      Object.keys(item).forEach(k => allKeys.add(k));
+    }
+  });
+
+  if (allKeys.size === 0) {
+    container.innerHTML = '<div class="empty-state"><p>Sem propriedades para exibir</p></div>';
+    return;
+  }
+
+  const keys = [...allKeys];
+  const table = document.createElement('table');
+  table.className = 'json-table';
+
+  // Header
+  const thead = document.createElement('thead');
+  const hrow = document.createElement('tr');
+  const idxTh = document.createElement('th');
+  idxTh.textContent = '#';
+  idxTh.style.width = '40px';
+  hrow.appendChild(idxTh);
+  keys.forEach(k => {
+    const th = document.createElement('th');
+    th.textContent = k;
+    hrow.appendChild(th);
+  });
+  thead.appendChild(hrow);
+  table.appendChild(thead);
+
+  // Body
+  const tbody = document.createElement('tbody');
+  items.forEach((item, rowIdx) => {
+    if (typeof item !== 'object' || item === null) return;
+    const tr = document.createElement('tr');
+    const idxTd = document.createElement('td');
+    idxTd.className = 'row-idx';
+    idxTd.textContent = rowIdx;
+    tr.appendChild(idxTd);
+
+    keys.forEach(k => {
+      const td = document.createElement('td');
+      const val = item[k];
+      if (val !== null && typeof val === 'object') {
+        td.className = 'nested-cell';
+        const badge = document.createElement('span');
+        badge.className = Array.isArray(val) ? 'nested-badge arr' : 'nested-badge obj';
+        badge.textContent = Array.isArray(val) ? `Array [${val.length}]` : `Object {${Object.keys(val).length}}`;
+        td.appendChild(badge);
+        td.addEventListener('click', () => openNestedModal(k, val));
+      } else if (val === null) {
+        td.style.color = 'var(--null-color)';
+        td.style.fontStyle = 'italic';
+        td.textContent = 'null';
+      } else if (typeof val === 'boolean') {
+        td.style.color = 'var(--bool-color)';
+        td.style.fontWeight = '600';
+        td.textContent = val;
+      } else if (typeof val === 'number') {
+        td.style.color = 'var(--number-color)';
+        td.textContent = val;
+      } else if (typeof val === 'string') {
+        td.textContent = val;
+        td.title = val;
+      } else {
+        td.textContent = String(val);
+      }
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  container.appendChild(table);
+}
+
+// ── Nested Modal ──
+function openNestedModal(key, data) {
+  document.getElementById('modalTitle').textContent = `${key}`;
+  const body = document.getElementById('modalBody');
+  body.innerHTML = '';
+
+  // Show tree
+  const tree = document.createElement('div');
+  tree.className = 'tree';
+  tree.appendChild(buildTreeNode(null, data, 0, true));
+  body.appendChild(tree);
+
+  // If array of objects, also show table
+  if (Array.isArray(data) && data.length > 0 && typeof data[0] === 'object') {
+    const hr = document.createElement('hr');
+    hr.style.cssText = 'border:none;border-top:1px solid var(--border);margin:16px 0';
+    body.appendChild(hr);
+    const label = document.createElement('div');
+    label.style.cssText = 'font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px';
+    label.textContent = 'Visualização em Tabela';
+    body.appendChild(label);
+    const tc = document.createElement('div');
+    tc.className = 'table-container';
+    body.appendChild(tc);
+    // Reuse table logic
+    const allKeys = new Set();
+    data.forEach(item => { if (typeof item === 'object' && item !== null) Object.keys(item).forEach(k => allKeys.add(k)); });
+    const keys = [...allKeys];
+    const table = document.createElement('table');
+    table.className = 'json-table';
+    const thead = document.createElement('thead');
+    const hrow = document.createElement('tr');
+    keys.forEach(k => { const th = document.createElement('th'); th.textContent = k; hrow.appendChild(th); });
+    thead.appendChild(hrow);
+    table.appendChild(thead);
+    const tbody = document.createElement('tbody');
+    data.forEach(item => {
+      if (typeof item !== 'object' || item === null) return;
+      const tr = document.createElement('tr');
+      keys.forEach(k => {
+        const td = document.createElement('td');
+        const v = item[k];
+        if (v !== null && typeof v === 'object') {
+          const badge = document.createElement('span');
+          badge.className = Array.isArray(v) ? 'nested-badge arr' : 'nested-badge obj';
+          badge.textContent = Array.isArray(v) ? `Array [${v.length}]` : `Object {${Object.keys(v).length}}`;
+          td.appendChild(badge);
+          td.className = 'nested-cell';
+          td.addEventListener('click', () => openNestedModal(k, v));
+        } else {
+          td.textContent = v === null ? 'null' : String(v);
+          if (v === null) { td.style.color = 'var(--null-color)'; td.style.fontStyle = 'italic'; }
+          else if (typeof v === 'number') td.style.color = 'var(--number-color)';
+          else if (typeof v === 'boolean') { td.style.color = 'var(--bool-color)'; td.style.fontWeight = '600'; }
+        }
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    tc.appendChild(table);
+  }
+
+  document.getElementById('modal').style.display = 'flex';
+}
+
+function closeModal() { document.getElementById('modal').style.display = 'none'; }
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+  if (e.ctrlKey && e.key === 'Enter') parseInput();
+});
+
+// Auto-parse on paste
+document.getElementById('jsonInput').addEventListener('paste', () => {
+  setTimeout(parseInput, 50);
+});
+</script>
+</body>
+</html>
