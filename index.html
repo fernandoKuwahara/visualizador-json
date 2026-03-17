@@ -72,6 +72,7 @@ body {
   font-family: var(--font-mono);
   display: flex;
   gap: 16px;
+  align-items: center;
 }
 .header .stats .stat-val { color: var(--accent); font-weight: 600; }
 
@@ -109,70 +110,50 @@ body {
   z-index: 10;
   transition: background 0.15s;
 }
-.resizer:hover, .resizer.active {
-  background: var(--accent);
-}
+.resizer:hover, .resizer.active { background: var(--accent); }
 .resizer::after {
   content: '';
   position: absolute;
-  left: -4px;
-  right: -4px;
-  top: 0;
-  bottom: 0;
+  left: -4px; right: -4px; top: 0; bottom: 0;
 }
 
 /* Toggle panel btn */
 .toggle-panel-btn {
-  width: 28px;
-  height: 28px;
+  width: 28px; height: 28px;
   border-radius: 6px;
   border: 1px solid var(--border);
   background: var(--bg-elevated);
   color: var(--text-muted);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   font-size: 14px;
   transition: all 0.15s;
   flex-shrink: 0;
 }
 .toggle-panel-btn:hover { border-color: var(--text-muted); color: var(--text); }
+
 .panel-header {
   padding: 10px 16px;
   background: var(--bg-surface);
   border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  display: flex; align-items: center; gap: 8px;
   flex-shrink: 0;
-}
-.panel-title {
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: var(--text-muted);
 }
 
 /* TABS */
 .tabs {
-  display: flex;
-  gap: 2px;
+  display: flex; gap: 2px;
   background: var(--bg);
   padding: 6px;
   border-radius: var(--radius);
 }
 .tab {
   padding: 6px 14px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 12px; font-weight: 600;
   font-family: var(--font-sans);
-  border: none;
-  background: transparent;
+  border: none; background: transparent;
   color: var(--text-muted);
-  border-radius: 6px;
-  cursor: pointer;
+  border-radius: 6px; cursor: pointer;
   transition: all 0.15s;
 }
 .tab:hover { color: var(--text); background: var(--bg-hover); }
@@ -180,131 +161,75 @@ body {
 
 /* TOOLBAR */
 .toolbar {
-  display: flex;
-  gap: 6px;
+  display: flex; gap: 6px;
   margin-left: auto;
 }
 .btn {
   padding: 6px 12px;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 11px; font-weight: 600;
   font-family: var(--font-sans);
   border: 1px solid var(--border);
   background: var(--bg-elevated);
   color: var(--text-muted);
-  border-radius: 6px;
-  cursor: pointer;
+  border-radius: 6px; cursor: pointer;
   transition: all 0.15s;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  display: flex; align-items: center; gap: 5px;
 }
 .btn:hover { border-color: var(--text-muted); color: var(--text); }
 .btn.primary {
-  background: var(--accent);
-  color: #000;
-  border-color: var(--accent);
+  background: var(--accent); color: #000; border-color: var(--accent);
 }
 .btn.primary:hover { opacity: 0.9; }
 
 /* TEXTAREA */
 .input-area {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  flex: 1; display: flex; flex-direction: column; overflow: hidden;
 }
 .input-area textarea {
   flex: 1;
-  background: var(--bg);
-  color: var(--text);
-  border: none;
-  padding: 16px;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  line-height: 1.6;
-  resize: none;
-  outline: none;
-  tab-size: 2;
+  background: var(--bg); color: var(--text);
+  border: none; padding: 16px;
+  font-family: var(--font-mono); font-size: 13px; line-height: 1.6;
+  resize: none; outline: none; tab-size: 2;
 }
 .input-area textarea::placeholder { color: var(--text-dim); }
 
 /* DROPZONE */
 .dropzone {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
-  cursor: pointer;
-  transition: all 0.2s;
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 40px; cursor: pointer; transition: all 0.2s;
 }
 .dropzone.dragover { background: var(--accent-soft); }
 .dropzone-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
+  width: 56px; height: 56px; border-radius: 50%;
   background: var(--bg-elevated);
   border: 2px dashed var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 16px;
-  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px; transition: all 0.2s;
 }
-.dropzone.dragover .dropzone-icon {
-  border-color: var(--accent);
-  background: var(--accent-soft);
-}
-.dropzone h3 {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-.dropzone p {
-  font-size: 12px;
-  color: var(--text-muted);
-}
-.dropzone .file-types {
-  display: flex;
-  gap: 6px;
-  margin-top: 12px;
-}
+.dropzone.dragover .dropzone-icon { border-color: var(--accent); background: var(--accent-soft); }
+.dropzone h3 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.dropzone p { font-size: 12px; color: var(--text-muted); }
+.dropzone .file-types { display: flex; gap: 6px; margin-top: 12px; }
 .dropzone .file-types span {
-  padding: 3px 10px;
-  font-size: 11px;
-  font-weight: 600;
-  font-family: var(--font-mono);
-  border-radius: 4px;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
+  padding: 3px 10px; font-size: 11px; font-weight: 600;
+  font-family: var(--font-mono); border-radius: 4px;
+  background: var(--bg-elevated); border: 1px solid var(--border);
   color: var(--text-muted);
 }
 #fileInput { display: none; }
 
 /* OUTPUT PANEL */
 .output-panel {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  flex: 1;
-  min-width: 300px;
+  display: flex; flex-direction: column; overflow: hidden;
+  flex: 1; min-width: 300px;
 }
-.view-tabs {
-  display: flex;
-  gap: 0;
-}
+.view-tabs { display: flex; gap: 0; }
 .view-tab {
-  padding: 6px 14px;
-  font-size: 12px;
-  font-weight: 600;
-  font-family: var(--font-sans);
-  border: none;
-  background: transparent;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all 0.15s;
+  padding: 6px 14px; font-size: 12px; font-weight: 600;
+  font-family: var(--font-sans); border: none; background: transparent;
+  color: var(--text-muted); cursor: pointer; transition: all 0.15s;
   border-bottom: 2px solid transparent;
 }
 .view-tab:hover { color: var(--text); }
@@ -312,58 +237,35 @@ body {
 
 /* TREE VIEW */
 .output-content {
-  flex: 1;
-  overflow: auto;
-  padding: 12px 16px;
+  flex: 1; overflow: auto; padding: 12px 16px;
 }
 .output-content::-webkit-scrollbar { width: 6px; height: 6px; }
 .output-content::-webkit-scrollbar-track { background: transparent; }
 .output-content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
 .tree { font-family: var(--font-mono); font-size: 13px; line-height: 1.7; }
-
 .tree-node { position: relative; }
 .tree-line {
-  display: flex;
-  align-items: flex-start;
-  padding: 1px 0;
-  border-radius: 4px;
-  cursor: default;
+  display: flex; align-items: flex-start;
+  padding: 1px 0; border-radius: 4px; cursor: default;
 }
 .tree-line:hover { background: var(--bg-hover); }
 .tree-line.collapsible { cursor: pointer; }
-
 .tree-toggle {
-  width: 18px;
-  height: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  color: var(--text-dim);
-  font-size: 10px;
-  transition: transform 0.15s;
-  user-select: none;
+  width: 18px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; color: var(--text-dim); font-size: 10px;
+  transition: transform 0.15s; user-select: none;
 }
 .tree-toggle.open { transform: rotate(90deg); }
 .tree-toggle.empty { visibility: hidden; }
-
 .tree-indent {
-  display: inline-block;
-  width: 20px;
-  flex-shrink: 0;
-  position: relative;
+  display: inline-block; width: 20px; flex-shrink: 0; position: relative;
 }
 .tree-indent::before {
-  content: '';
-  position: absolute;
-  left: 9px;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: var(--border);
+  content: ''; position: absolute; left: 9px; top: 0; bottom: 0;
+  width: 1px; background: var(--border);
 }
-
 .tree-key { color: var(--key-color); }
 .tree-colon { color: var(--text-dim); margin: 0 4px; }
 .tree-string { color: var(--string-color); }
@@ -374,15 +276,9 @@ body {
 .tree-summary { color: var(--text-dim); font-size: 12px; font-style: italic; }
 .tree-children { display: block; }
 .tree-children.collapsed { display: none; }
-
-/* Copy on hover */
 .copy-val {
-  margin-left: 6px;
-  opacity: 0;
-  color: var(--text-dim);
-  font-size: 10px;
-  cursor: pointer;
-  transition: opacity 0.15s;
+  margin-left: 6px; opacity: 0; color: var(--text-dim);
+  font-size: 10px; cursor: pointer; transition: opacity 0.15s;
 }
 .tree-line:hover .copy-val { opacity: 1; }
 .copy-val:hover { color: var(--accent); }
@@ -390,133 +286,72 @@ body {
 /* TABLE VIEW */
 .table-container { overflow: auto; }
 .json-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 12px;
-  font-family: var(--font-mono);
+  width: 100%; border-collapse: collapse;
+  font-size: 12px; font-family: var(--font-mono);
 }
 .json-table th {
-  position: sticky;
-  top: 0;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  padding: 8px 12px;
-  text-align: left;
-  font-weight: 700;
-  color: var(--accent);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-  z-index: 2;
+  position: sticky; top: 0;
+  background: var(--bg-elevated); border: 1px solid var(--border);
+  padding: 8px 12px; text-align: left; font-weight: 700;
+  color: var(--accent); font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  white-space: nowrap; z-index: 2;
 }
 .json-table td {
-  border: 1px solid var(--border);
-  padding: 6px 12px;
-  color: var(--text);
-  max-width: 350px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  vertical-align: top;
+  border: 1px solid var(--border); padding: 6px 12px;
+  color: var(--text); max-width: 350px;
+  overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap; vertical-align: top;
 }
 .json-table tr:hover td { background: var(--bg-hover); }
-.json-table td.nested-cell {
-  color: var(--text-muted);
-  cursor: pointer;
-  position: relative;
-}
+.json-table td.nested-cell { color: var(--text-muted); cursor: pointer; position: relative; }
 .json-table td.nested-cell:hover { color: var(--accent); }
 .nested-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 600;
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px; border-radius: 4px;
+  font-size: 11px; font-weight: 600;
 }
 .nested-badge.obj { background: var(--purple-soft); color: var(--purple); }
 .nested-badge.arr { background: var(--green-soft); color: var(--green); }
 
 /* NESTED MODAL */
 .modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(4px);
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+  z-index: 100; display: flex; align-items: center; justify-content: center;
   animation: fadeIn 0.15s ease;
 }
 .modal {
-  background: var(--bg-surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  width: 90%;
-  max-width: 800px;
-  max-height: 80vh;
-  display: flex;
-  flex-direction: column;
-  animation: slideUp 0.2s ease;
+  background: var(--bg-surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); width: 90%; max-width: 800px; max-height: 80vh;
+  display: flex; flex-direction: column; animation: slideUp 0.2s ease;
 }
 .modal-header {
-  padding: 14px 18px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  padding: 14px 18px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
 }
-.modal-header h3 {
-  font-size: 13px;
-  font-family: var(--font-mono);
-  color: var(--accent);
-}
+.modal-header h3 { font-size: 13px; font-family: var(--font-mono); color: var(--accent); }
 .modal-close {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  border: none;
-  background: var(--bg-hover);
-  color: var(--text-muted);
-  cursor: pointer;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 28px; height: 28px; border-radius: 6px; border: none;
+  background: var(--bg-hover); color: var(--text-muted); cursor: pointer;
+  font-size: 14px; display: flex; align-items: center; justify-content: center;
 }
 .modal-close:hover { color: var(--text); }
-.modal-body {
-  flex: 1;
-  overflow: auto;
-  padding: 16px;
-}
+.modal-body { flex: 1; overflow: auto; padding: 16px; }
 @keyframes fadeIn { from { opacity: 0; } }
 @keyframes slideUp { from { transform: translateY(12px); opacity: 0; } }
 
 /* ERROR */
 .error-box {
-  background: var(--red-soft);
-  border: 1px solid rgba(248,81,73,0.3);
-  border-radius: var(--radius);
-  padding: 12px 16px;
-  margin: 12px;
-  font-size: 13px;
-  font-family: var(--font-mono);
-  color: var(--red);
+  background: var(--red-soft); border: 1px solid rgba(248,81,73,0.3);
+  border-radius: var(--radius); padding: 12px 16px; margin: 12px;
+  font-size: 13px; font-family: var(--font-mono); color: var(--red);
 }
 
 /* EMPTY STATE */
 .empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  color: var(--text-dim);
-  gap: 8px;
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; height: 100%; color: var(--text-dim); gap: 8px;
 }
 .empty-state svg { opacity: 0.3; }
 .empty-state p { font-size: 13px; }
@@ -530,41 +365,113 @@ body {
 }
 
 /* Search */
-.search-box {
-  position: relative;
-  margin-left: auto;
-}
+.search-box { position: relative; margin-left: auto; }
 .search-box input {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 5px 10px 5px 28px;
-  font-size: 12px;
-  font-family: var(--font-mono);
-  color: var(--text);
-  outline: none;
-  width: 180px;
-  transition: border-color 0.15s;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 6px; padding: 5px 10px 5px 28px;
+  font-size: 12px; font-family: var(--font-mono); color: var(--text);
+  outline: none; width: 180px; transition: border-color 0.15s;
 }
 .search-box input:focus { border-color: var(--accent); }
 .search-box input::placeholder { color: var(--text-dim); }
 .search-box svg {
-  position: absolute;
-  left: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--text-dim);
+  position: absolute; left: 8px; top: 50%;
+  transform: translateY(-50%); color: var(--text-dim);
 }
 .highlight { background: var(--orange-soft); border-radius: 2px; outline: 1px solid var(--orange); }
 
 /* Row index */
 .row-idx {
-  color: var(--text-dim);
-  font-size: 10px;
-  text-align: right;
-  padding-right: 8px !important;
+  color: var(--text-dim); font-size: 10px; text-align: right;
+  padding-right: 8px !important; user-select: none; width: 40px;
+}
+
+/* ── WARN BADGE (extraction notice) ── */
+.warn-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(248,81,73,0.13);
+  border: 1px solid rgba(248,81,73,0.35);
+  color: var(--red);
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  position: relative;
+  transition: background 0.15s;
   user-select: none;
-  width: 40px;
+}
+.warn-badge:hover { background: rgba(248,81,73,0.22); }
+.warn-badge svg { flex-shrink: 0; }
+
+/* ── WARN POPUP ── */
+.warn-popup {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 320px;
+  max-width: 420px;
+  background: var(--bg-surface);
+  border: 1px solid rgba(248,81,73,0.4);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  padding: 14px 16px;
+  z-index: 200;
+  animation: slideUp 0.15s ease;
+  display: none;
+}
+.warn-popup.open { display: block; }
+.warn-popup-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--red);
+  font-family: var(--font-mono);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.warn-popup-body {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  font-family: var(--font-mono);
+}
+.warn-popup-body code {
+  background: var(--bg-elevated);
+  border-radius: 3px;
+  padding: 1px 5px;
+  color: var(--red);
+  font-size: 11px;
+}
+.warn-popup-body .extracted-count {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 10px;
+  background: var(--green-soft);
+  border: 1px solid rgba(63,185,80,0.3);
+  border-radius: 4px;
+  color: var(--green);
+  font-weight: 700;
+  font-size: 11px;
+}
+.warn-popup-close {
+  position: absolute;
+  top: 10px; right: 10px;
+  background: none; border: none;
+  color: var(--text-dim); cursor: pointer;
+  font-size: 14px; padding: 2px 4px;
+  border-radius: 4px;
+}
+.warn-popup-close:hover { color: var(--text); background: var(--bg-hover); }
+
+/* wrapper for badge + popup */
+.warn-wrapper {
+  position: relative;
+  display: inline-flex;
 }
 </style>
 </head>
@@ -594,7 +501,16 @@ body {
       </div>
     </div>
     <div class="input-area" id="textTab">
-      <textarea id="jsonInput" placeholder='Cole seu JSON aqui...\n\nExemplo:\n{\n  "nome": "Fernando",\n  "idade": 28,\n  "skills": ["JS", "React", "Docker"]\n}' spellcheck="false"></textarea>
+      <textarea id="jsonInput" placeholder='Cole seu JSON aqui...
+
+Exemplo:
+{
+  "nome": "Fernando",
+  "idade": 28,
+  "skills": ["JS", "React", "Docker"]
+}
+
+Dica: também funciona com texto misturado — o viewer extrai os JSONs automaticamente!' spellcheck="false"></textarea>
     </div>
     <div class="input-area" id="fileTab" style="display:none">
       <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
@@ -605,10 +521,7 @@ body {
         </div>
         <h3>Arraste ou clique para enviar</h3>
         <p>Selecione um arquivo do seu computador</p>
-        <div class="file-types">
-          <span>.json</span>
-          <span>.csv</span>
-        </div>
+        <div class="file-types"><span>.json</span><span>.csv</span></div>
       </div>
       <input type="file" id="fileInput" accept=".json,.csv">
     </div>
@@ -657,6 +570,8 @@ body {
 
 <script>
 let parsedData = null;
+// Store last extraction info for the warning badge
+let lastExtractionInfo = null;
 
 // ── Input Tabs ──
 function switchInputTab(tab) {
@@ -679,18 +594,14 @@ const fileInput = document.getElementById('fileInput');
 dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
 dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
 dropzone.addEventListener('drop', e => {
-  e.preventDefault();
-  dropzone.classList.remove('dragover');
+  e.preventDefault(); dropzone.classList.remove('dragover');
   handleFile(e.dataTransfer.files[0]);
 });
 fileInput.addEventListener('change', e => { if (e.target.files[0]) handleFile(e.target.files[0]); });
 
 function handleFile(file) {
   const ext = file.name.split('.').pop().toLowerCase();
-  if (!['json', 'csv'].includes(ext)) {
-    showError('Formato não suportado. Use .json ou .csv');
-    return;
-  }
+  if (!['json', 'csv'].includes(ext)) { showError('Formato não suportado. Use .json ou .csv'); return; }
   const reader = new FileReader();
   reader.onload = e => {
     const text = e.target.result;
@@ -731,9 +642,7 @@ function csvToJson(csv) {
 }
 
 function parseCSVLine(line) {
-  const result = [];
-  let current = '';
-  let inQuotes = false;
+  const result = []; let current = ''; let inQuotes = false;
   for (let i = 0; i < line.length; i++) {
     const ch = line[i];
     if (inQuotes) {
@@ -750,18 +659,117 @@ function parseCSVLine(line) {
   return result;
 }
 
+// ────────────────────────────────────────────────────────────
+// ── SMART JSON EXTRACTOR ─────────────────────────────────────
+// Extracts all valid top-level { } or [ ] JSON blocks from text.
+// Returns { data, extracted: boolean, count, parseError }
+// ────────────────────────────────────────────────────────────
+function extractJsonsFromText(raw) {
+  const results = [];
+  const len = raw.length;
+  let i = 0;
+
+  while (i < len) {
+    const ch = raw[i];
+    if (ch === '{' || ch === '[') {
+      const close = ch === '{' ? '}' : ']';
+      // Try progressively larger slices
+      const candidate = extractBalancedBlock(raw, i, ch, close);
+      if (candidate !== null) {
+        try {
+          const parsed = JSON.parse(candidate.text);
+          results.push(parsed);
+          i = candidate.end; // skip past this block
+          continue;
+        } catch(e) {
+          // block found but not valid JSON — skip char
+        }
+      }
+    }
+    i++;
+  }
+
+  return results;
+}
+
+// Returns the balanced { } or [ ] block starting at `start`, or null.
+function extractBalancedBlock(str, start, open, close) {
+  let depth = 0;
+  let inString = false;
+  let escape = false;
+
+  for (let i = start; i < str.length; i++) {
+    const ch = str[i];
+
+    if (escape) { escape = false; continue; }
+    if (ch === '\\' && inString) { escape = true; continue; }
+    if (ch === '"') { inString = !inString; continue; }
+    if (inString) continue;
+
+    if (ch === open) depth++;
+    else if (ch === close) {
+      depth--;
+      if (depth === 0) {
+        return { text: str.slice(start, i + 1), end: i + 1 };
+      }
+    }
+  }
+  return null; // unbalanced
+}
+
 // ── Parse ──
 function parseInput() {
   const raw = document.getElementById('jsonInput').value.trim();
   if (!raw) return;
+
+  lastExtractionInfo = null;
+  removeWarnBadge();
+
+  // 1. Try direct parse
   try {
     parsedData = JSON.parse(raw);
     renderTree(parsedData);
     renderTable(parsedData);
     updateStats(parsedData);
     document.getElementById('emptyState')?.remove();
-  } catch (e) {
-    showError('JSON inválido: ' + e.message);
+    return;
+  } catch (parseError) {
+    // 2. Check if there's ANY { or [ in the text — if so, try smart extraction
+    const hasJsonChars = /[{\[]/.test(raw);
+    if (!hasJsonChars) {
+      showError('JSON inválido: ' + parseError.message);
+      return;
+    }
+
+    // 3. Smart extraction
+    const extracted = extractJsonsFromText(raw);
+
+    if (extracted.length === 0) {
+      // Nothing valid found — show the real parse error (JSON was meant to be JSON)
+      showError('JSON inválido: ' + parseError.message);
+      return;
+    }
+
+    // 4. Package result
+    let finalData;
+    if (extracted.length === 1) {
+      finalData = extracted[0];
+    } else {
+      finalData = extracted; // wrap multiple as array
+    }
+
+    lastExtractionInfo = {
+      parseError: parseError.message,
+      count: extracted.length,
+      wrappedAsArray: extracted.length > 1
+    };
+
+    parsedData = finalData;
+    renderTree(parsedData);
+    renderTable(parsedData);
+    updateStats(parsedData);
+    document.getElementById('emptyState')?.remove();
+    renderWarnBadge(lastExtractionInfo);
   }
 }
 
@@ -785,11 +793,18 @@ function clearAll() {
   document.getElementById('tableView').innerHTML = '';
   document.getElementById('stats').innerHTML = '';
   parsedData = null;
+  lastExtractionInfo = null;
+  removeWarnBadge();
 }
 
 function showError(msg) {
   const tv = document.getElementById('treeView');
-  tv.innerHTML = `<div class="error-box">${msg}</div>`;
+  tv.innerHTML = `<div class="error-box">${escapeHtml(msg)}</div>`;
+  removeWarnBadge();
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 function updateStats(data) {
@@ -802,6 +817,81 @@ function updateStats(data) {
   const sizeStr = size > 1024 ? (size/1024).toFixed(1) + ' KB' : size + ' B';
   s.innerHTML = `<span>Tipo: <span class="stat-val">${type}</span></span><span>Contém: <span class="stat-val">${count}</span></span><span>Tamanho: <span class="stat-val">${sizeStr}</span></span>`;
 }
+
+// ────────────────────────────────────────────────────────────
+// ── WARN BADGE ───────────────────────────────────────────────
+// ────────────────────────────────────────────────────────────
+function removeWarnBadge() {
+  document.getElementById('warnWrapper')?.remove();
+}
+
+function renderWarnBadge(info) {
+  removeWarnBadge();
+
+  const statsEl = document.getElementById('stats');
+  if (!statsEl) return;
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'warn-wrapper';
+  wrapper.id = 'warnWrapper';
+
+  const badge = document.createElement('button');
+  badge.className = 'warn-badge';
+  badge.innerHTML = `
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+      <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+    </svg>
+    Extração automática
+  `;
+
+  const popup = document.createElement('div');
+  popup.className = 'warn-popup';
+  popup.id = 'warnPopup';
+
+  const truncatedErr = info.parseError.length > 100 ? info.parseError.slice(0, 100) + '…' : info.parseError;
+
+  popup.innerHTML = `
+    <button class="warn-popup-close" onclick="closeWarnPopup(event)">✕</button>
+    <div class="warn-popup-title">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      Entrada com texto misto detectada
+    </div>
+    <div class="warn-popup-body">
+      O conteúdo colado <strong>não é um JSON válido</strong>.<br>
+      Erro original: <code>${escapeHtml(truncatedErr)}</code><br><br>
+      O viewer encontrou e extraiu automaticamente ${info.count} bloco${info.count !== 1 ? 's' : ''} JSON válido${info.count !== 1 ? 's' : ''} do texto.
+      ${info.wrappedAsArray ? '<br>Os blocos foram agrupados como um <code>Array</code>.' : ''}
+      <span class="extracted-count">✓ ${info.count} JSON${info.count !== 1 ? 's' : ''} extraído${info.count !== 1 ? 's' : ''}</span>
+    </div>
+  `;
+
+  badge.addEventListener('click', (e) => {
+    e.stopPropagation();
+    popup.classList.toggle('open');
+  });
+
+  wrapper.appendChild(badge);
+  wrapper.appendChild(popup);
+  statsEl.appendChild(wrapper);
+}
+
+function closeWarnPopup(e) {
+  e.stopPropagation();
+  document.getElementById('warnPopup')?.classList.remove('open');
+}
+
+// Close popup when clicking outside
+document.addEventListener('click', (e) => {
+  const popup = document.getElementById('warnPopup');
+  const wrapper = document.getElementById('warnWrapper');
+  if (popup && wrapper && !wrapper.contains(e.target)) {
+    popup.classList.remove('open');
+  }
+});
 
 // ── TREE VIEW ──
 function renderTree(data) {
@@ -821,76 +911,42 @@ function buildTreeNode(key, value, depth, isLast) {
     const closeBr = isArr ? ']' : '}';
     const summary = isArr ? `${value.length} items` : `${Object.keys(value).length} keys`;
 
-    // Header line
     const line = document.createElement('div');
     line.className = 'tree-line collapsible';
 
-    // Indents
     for (let i = 0; i < depth; i++) {
-      const ind = document.createElement('span');
-      ind.className = 'tree-indent';
-      line.appendChild(ind);
+      const ind = document.createElement('span'); ind.className = 'tree-indent'; line.appendChild(ind);
     }
 
-    // Toggle
     const toggle = document.createElement('span');
-    toggle.className = 'tree-toggle open';
-    toggle.textContent = '▶';
-    line.appendChild(toggle);
+    toggle.className = 'tree-toggle open'; toggle.textContent = '▶'; line.appendChild(toggle);
 
-    // Key
     if (key !== null) {
-      const k = document.createElement('span');
-      k.className = 'tree-key';
-      k.textContent = typeof key === 'number' ? key : `"${key}"`;
-      line.appendChild(k);
-      const c = document.createElement('span');
-      c.className = 'tree-colon';
-      c.textContent = ':';
-      line.appendChild(c);
+      const k = document.createElement('span'); k.className = 'tree-key';
+      k.textContent = typeof key === 'number' ? key : `"${key}"`; line.appendChild(k);
+      const c = document.createElement('span'); c.className = 'tree-colon'; c.textContent = ':'; line.appendChild(c);
     }
 
-    const br = document.createElement('span');
-    br.className = 'tree-bracket';
-    br.textContent = openBr;
-    line.appendChild(br);
-
-    const sum = document.createElement('span');
-    sum.className = 'tree-summary';
-    sum.textContent = ` // ${summary}`;
-    sum.style.display = 'none';
-    line.appendChild(sum);
-
+    const br = document.createElement('span'); br.className = 'tree-bracket'; br.textContent = openBr; line.appendChild(br);
+    const sum = document.createElement('span'); sum.className = 'tree-summary';
+    sum.textContent = ` // ${summary}`; sum.style.display = 'none'; line.appendChild(sum);
     node.appendChild(line);
 
-    // Children
-    const children = document.createElement('div');
-    children.className = 'tree-children';
-
+    const children = document.createElement('div'); children.className = 'tree-children';
     entries.forEach(([k, v], idx) => {
       children.appendChild(buildTreeNode(k, v, depth + 1, idx === entries.length - 1));
     });
 
-    // Closing bracket
-    const closeLine = document.createElement('div');
-    closeLine.className = 'tree-line';
+    const closeLine = document.createElement('div'); closeLine.className = 'tree-line';
     for (let i = 0; i < depth; i++) {
-      const ind = document.createElement('span');
-      ind.className = 'tree-indent';
-      closeLine.appendChild(ind);
+      const ind = document.createElement('span'); ind.className = 'tree-indent'; closeLine.appendChild(ind);
     }
-    const sp = document.createElement('span');
-    sp.className = 'tree-toggle empty';
-    closeLine.appendChild(sp);
-    const cbr = document.createElement('span');
-    cbr.className = 'tree-bracket';
-    cbr.textContent = closeBr + (isLast ? '' : ',');
-    closeLine.appendChild(cbr);
+    const sp = document.createElement('span'); sp.className = 'tree-toggle empty'; closeLine.appendChild(sp);
+    const cbr = document.createElement('span'); cbr.className = 'tree-bracket';
+    cbr.textContent = closeBr + (isLast ? '' : ','); closeLine.appendChild(cbr);
     children.appendChild(closeLine);
-
     node.appendChild(children);
 
-    // Toggle behavior
     line.addEventListener('click', () => {
       const open = toggle.classList.toggle('open');
       children.classList.toggle('collapsed', !open);
@@ -898,27 +954,16 @@ function buildTreeNode(key, value, depth, isLast) {
       cbr.parentElement.style.display = open ? '' : 'none';
     });
   } else {
-    // Primitive
-    const line = document.createElement('div');
-    line.className = 'tree-line';
+    const line = document.createElement('div'); line.className = 'tree-line';
     for (let i = 0; i < depth; i++) {
-      const ind = document.createElement('span');
-      ind.className = 'tree-indent';
-      line.appendChild(ind);
+      const ind = document.createElement('span'); ind.className = 'tree-indent'; line.appendChild(ind);
     }
-    const sp = document.createElement('span');
-    sp.className = 'tree-toggle empty';
-    line.appendChild(sp);
+    const sp = document.createElement('span'); sp.className = 'tree-toggle empty'; line.appendChild(sp);
 
     if (key !== null) {
-      const k = document.createElement('span');
-      k.className = 'tree-key';
-      k.textContent = typeof key === 'number' ? key : `"${key}"`;
-      line.appendChild(k);
-      const c = document.createElement('span');
-      c.className = 'tree-colon';
-      c.textContent = ':';
-      line.appendChild(c);
+      const k = document.createElement('span'); k.className = 'tree-key';
+      k.textContent = typeof key === 'number' ? key : `"${key}"`; line.appendChild(k);
+      const c = document.createElement('span'); c.className = 'tree-colon'; c.textContent = ':'; line.appendChild(c);
     }
 
     const val = document.createElement('span');
@@ -927,23 +972,17 @@ function buildTreeNode(key, value, depth, isLast) {
     else if (typeof value === 'number') { val.className = 'tree-number'; val.textContent = value; }
     else if (typeof value === 'boolean') { val.className = 'tree-boolean'; val.textContent = value; }
     else { val.textContent = String(value); }
-
     if (!isLast) val.textContent += ',';
     line.appendChild(val);
 
-    // Copy btn
-    const cp = document.createElement('span');
-    cp.className = 'copy-val';
-    cp.textContent = '📋';
-    cp.title = 'Copiar valor';
+    const cp = document.createElement('span'); cp.className = 'copy-val';
+    cp.textContent = '📋'; cp.title = 'Copiar valor';
     cp.addEventListener('click', e => {
       e.stopPropagation();
       navigator.clipboard.writeText(value === null ? 'null' : String(value));
-      cp.textContent = '✓';
-      setTimeout(() => cp.textContent = '📋', 1000);
+      cp.textContent = '✓'; setTimeout(() => cp.textContent = '📋', 1000);
     });
     line.appendChild(cp);
-
     node.appendChild(line);
   }
   return node;
@@ -954,18 +993,13 @@ function expandAll() {
   document.querySelectorAll('.tree-children.collapsed').forEach(c => c.classList.remove('collapsed'));
   document.querySelectorAll('.tree-toggle:not(.empty)').forEach(t => t.classList.add('open'));
   document.querySelectorAll('.tree-summary').forEach(s => s.style.display = 'none');
-  // Show closing brackets
-  document.querySelectorAll('.tree-children').forEach(c => {
-    const last = c.lastElementChild;
-    if (last) last.style.display = '';
-  });
+  document.querySelectorAll('.tree-children').forEach(c => { const last = c.lastElementChild; if (last) last.style.display = ''; });
 }
 
 function collapseAll() {
   document.querySelectorAll('.tree-children').forEach(c => c.classList.add('collapsed'));
   document.querySelectorAll('.tree-toggle:not(.empty)').forEach(t => t.classList.remove('open'));
   document.querySelectorAll('.tree-summary').forEach(s => s.style.display = '');
-  // First level open
   const root = document.querySelector('#treeView > .tree-node > .tree-children');
   if (root) {
     root.classList.remove('collapsed');
@@ -980,16 +1014,13 @@ function collapseAll() {
 
 // ── Search ──
 function searchTree(query) {
-  document.querySelectorAll('.highlight').forEach(el => {
-    el.outerHTML = el.textContent;
-  });
+  document.querySelectorAll('.highlight').forEach(el => { el.outerHTML = el.textContent; });
   if (!query || query.length < 2) return;
   const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
   const keys = document.querySelectorAll('#treeView .tree-key');
   keys.forEach(k => {
     if (regex.test(k.textContent)) {
       k.innerHTML = k.textContent.replace(regex, '<span class="highlight">$1</span>');
-      // Expand parents
       let p = k.closest('.tree-children');
       while (p) {
         p.classList.remove('collapsed');
@@ -1018,132 +1049,81 @@ function renderTable(data) {
     return;
   }
 
-  // Collect all keys
   const allKeys = new Set();
-  items.forEach(item => {
-    if (typeof item === 'object' && item !== null) {
-      Object.keys(item).forEach(k => allKeys.add(k));
-    }
-  });
+  items.forEach(item => { if (typeof item === 'object' && item !== null) Object.keys(item).forEach(k => allKeys.add(k)); });
 
   if (allKeys.size === 0) {
-    container.innerHTML = '<div class="empty-state"><p>Sem propriedades para exibir</p></div>';
-    return;
+    container.innerHTML = '<div class="empty-state"><p>Sem propriedades para exibir</p></div>'; return;
   }
 
   const keys = [...allKeys];
-  const table = document.createElement('table');
-  table.className = 'json-table';
+  const table = document.createElement('table'); table.className = 'json-table';
+  const thead = document.createElement('thead'); const hrow = document.createElement('tr');
+  const idxTh = document.createElement('th'); idxTh.textContent = '#'; idxTh.style.width = '40px'; hrow.appendChild(idxTh);
+  keys.forEach(k => { const th = document.createElement('th'); th.textContent = k; hrow.appendChild(th); });
+  thead.appendChild(hrow); table.appendChild(thead);
 
-  // Header
-  const thead = document.createElement('thead');
-  const hrow = document.createElement('tr');
-  const idxTh = document.createElement('th');
-  idxTh.textContent = '#';
-  idxTh.style.width = '40px';
-  hrow.appendChild(idxTh);
-  keys.forEach(k => {
-    const th = document.createElement('th');
-    th.textContent = k;
-    hrow.appendChild(th);
-  });
-  thead.appendChild(hrow);
-  table.appendChild(thead);
-
-  // Body
   const tbody = document.createElement('tbody');
   items.forEach((item, rowIdx) => {
     if (typeof item !== 'object' || item === null) return;
     const tr = document.createElement('tr');
-    const idxTd = document.createElement('td');
-    idxTd.className = 'row-idx';
-    idxTd.textContent = rowIdx;
-    tr.appendChild(idxTd);
-
+    const idxTd = document.createElement('td'); idxTd.className = 'row-idx'; idxTd.textContent = rowIdx; tr.appendChild(idxTd);
     keys.forEach(k => {
-      const td = document.createElement('td');
-      const val = item[k];
+      const td = document.createElement('td'); const val = item[k];
       if (val !== null && typeof val === 'object') {
         td.className = 'nested-cell';
         const badge = document.createElement('span');
         badge.className = Array.isArray(val) ? 'nested-badge arr' : 'nested-badge obj';
         badge.textContent = Array.isArray(val) ? `Array [${val.length}]` : `Object {${Object.keys(val).length}}`;
-        td.appendChild(badge);
-        td.addEventListener('click', () => openNestedModal(k, val));
+        td.appendChild(badge); td.addEventListener('click', () => openNestedModal(k, val));
       } else if (val === null) {
-        td.style.color = 'var(--null-color)';
-        td.style.fontStyle = 'italic';
-        td.textContent = 'null';
+        td.style.color = 'var(--null-color)'; td.style.fontStyle = 'italic'; td.textContent = 'null';
       } else if (typeof val === 'boolean') {
-        td.style.color = 'var(--bool-color)';
-        td.style.fontWeight = '600';
-        td.textContent = val;
+        td.style.color = 'var(--bool-color)'; td.style.fontWeight = '600'; td.textContent = val;
       } else if (typeof val === 'number') {
-        td.style.color = 'var(--number-color)';
-        td.textContent = val;
+        td.style.color = 'var(--number-color)'; td.textContent = val;
       } else if (typeof val === 'string') {
-        td.textContent = val;
-        td.title = val;
-      } else {
-        td.textContent = String(val);
-      }
+        td.textContent = val; td.title = val;
+      } else { td.textContent = String(val); }
       tr.appendChild(td);
     });
     tbody.appendChild(tr);
   });
-  table.appendChild(tbody);
-  container.appendChild(table);
+  table.appendChild(tbody); container.appendChild(table);
 }
 
 // ── Nested Modal ──
 function openNestedModal(key, data) {
   document.getElementById('modalTitle').textContent = `${key}`;
-  const body = document.getElementById('modalBody');
-  body.innerHTML = '';
+  const body = document.getElementById('modalBody'); body.innerHTML = '';
+  const tree = document.createElement('div'); tree.className = 'tree';
+  tree.appendChild(buildTreeNode(null, data, 0, true)); body.appendChild(tree);
 
-  // Show tree
-  const tree = document.createElement('div');
-  tree.className = 'tree';
-  tree.appendChild(buildTreeNode(null, data, 0, true));
-  body.appendChild(tree);
-
-  // If array of objects, also show table
   if (Array.isArray(data) && data.length > 0 && typeof data[0] === 'object') {
     const hr = document.createElement('hr');
-    hr.style.cssText = 'border:none;border-top:1px solid var(--border);margin:16px 0';
-    body.appendChild(hr);
+    hr.style.cssText = 'border:none;border-top:1px solid var(--border);margin:16px 0'; body.appendChild(hr);
     const label = document.createElement('div');
     label.style.cssText = 'font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px';
-    label.textContent = 'Visualização em Tabela';
-    body.appendChild(label);
-    const tc = document.createElement('div');
-    tc.className = 'table-container';
-    body.appendChild(tc);
-    // Reuse table logic
+    label.textContent = 'Visualização em Tabela'; body.appendChild(label);
+    const tc = document.createElement('div'); tc.className = 'table-container'; body.appendChild(tc);
     const allKeys = new Set();
     data.forEach(item => { if (typeof item === 'object' && item !== null) Object.keys(item).forEach(k => allKeys.add(k)); });
     const keys = [...allKeys];
-    const table = document.createElement('table');
-    table.className = 'json-table';
-    const thead = document.createElement('thead');
-    const hrow = document.createElement('tr');
+    const table = document.createElement('table'); table.className = 'json-table';
+    const thead = document.createElement('thead'); const hrow = document.createElement('tr');
     keys.forEach(k => { const th = document.createElement('th'); th.textContent = k; hrow.appendChild(th); });
-    thead.appendChild(hrow);
-    table.appendChild(thead);
+    thead.appendChild(hrow); table.appendChild(thead);
     const tbody = document.createElement('tbody');
     data.forEach(item => {
       if (typeof item !== 'object' || item === null) return;
       const tr = document.createElement('tr');
       keys.forEach(k => {
-        const td = document.createElement('td');
-        const v = item[k];
+        const td = document.createElement('td'); const v = item[k];
         if (v !== null && typeof v === 'object') {
           const badge = document.createElement('span');
           badge.className = Array.isArray(v) ? 'nested-badge arr' : 'nested-badge obj';
           badge.textContent = Array.isArray(v) ? `Array [${v.length}]` : `Object {${Object.keys(v).length}}`;
-          td.appendChild(badge);
-          td.className = 'nested-cell';
-          td.addEventListener('click', () => openNestedModal(k, v));
+          td.appendChild(badge); td.className = 'nested-cell'; td.addEventListener('click', () => openNestedModal(k, v));
         } else {
           td.textContent = v === null ? 'null' : String(v);
           if (v === null) { td.style.color = 'var(--null-color)'; td.style.fontStyle = 'italic'; }
@@ -1154,10 +1134,8 @@ function openNestedModal(key, data) {
       });
       tbody.appendChild(tr);
     });
-    table.appendChild(tbody);
-    tc.appendChild(table);
+    table.appendChild(tbody); tc.appendChild(table);
   }
-
   document.getElementById('modal').style.display = 'flex';
 }
 
@@ -1165,14 +1143,12 @@ function closeModal() { document.getElementById('modal').style.display = 'none';
 
 // Keyboard
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeModal();
+  if (e.key === 'Escape') { closeModal(); document.getElementById('warnPopup')?.classList.remove('open'); }
   if (e.ctrlKey && e.key === 'Enter') parseInput();
 });
 
 // Auto-parse on paste
-document.getElementById('jsonInput').addEventListener('paste', () => {
-  setTimeout(parseInput, 50);
-});
+document.getElementById('jsonInput').addEventListener('paste', () => { setTimeout(parseInput, 50); });
 
 // ── Resizer ──
 const resizer = document.getElementById('resizer');
@@ -1180,31 +1156,20 @@ const panel = document.querySelector('.panel');
 let isResizing = false;
 
 resizer.addEventListener('mousedown', e => {
-  isResizing = true;
-  resizer.classList.add('active');
-  document.body.style.cursor = 'col-resize';
-  document.body.style.userSelect = 'none';
-  e.preventDefault();
+  isResizing = true; resizer.classList.add('active');
+  document.body.style.cursor = 'col-resize'; document.body.style.userSelect = 'none'; e.preventDefault();
 });
-
 document.addEventListener('mousemove', e => {
   if (!isResizing) return;
   const appRect = document.querySelector('.app').getBoundingClientRect();
   let newWidth = e.clientX - appRect.left;
-  const minW = 200;
-  const maxW = appRect.width - 300;
-  newWidth = Math.max(minW, Math.min(maxW, newWidth));
-  panel.style.width = newWidth + 'px';
-  panel.style.transition = 'none';
+  newWidth = Math.max(200, Math.min(appRect.width - 300, newWidth));
+  panel.style.width = newWidth + 'px'; panel.style.transition = 'none';
 });
-
 document.addEventListener('mouseup', () => {
   if (!isResizing) return;
-  isResizing = false;
-  resizer.classList.remove('active');
-  document.body.style.cursor = '';
-  document.body.style.userSelect = '';
-  panel.style.transition = '';
+  isResizing = false; resizer.classList.remove('active');
+  document.body.style.cursor = ''; document.body.style.userSelect = ''; panel.style.transition = '';
 });
 
 // ── Toggle Input Panel ──
@@ -1213,15 +1178,11 @@ function toggleInputPanel() {
   panelCollapsed = !panelCollapsed;
   const btn = document.getElementById('togglePanelBtn');
   if (panelCollapsed) {
-    panel.classList.add('collapsed');
-    resizer.style.display = 'none';
-    btn.textContent = '▶';
-    btn.title = 'Abrir painel de entrada';
+    panel.classList.add('collapsed'); resizer.style.display = 'none';
+    btn.textContent = '▶'; btn.title = 'Abrir painel de entrada';
   } else {
-    panel.classList.remove('collapsed');
-    resizer.style.display = '';
-    btn.textContent = '◀';
-    btn.title = 'Fechar painel de entrada';
+    panel.classList.remove('collapsed'); resizer.style.display = '';
+    btn.textContent = '◀'; btn.title = 'Fechar painel de entrada';
   }
 }
 </script>
